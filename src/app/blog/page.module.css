@@ -1,0 +1,133 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+.breadcrumb {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.breadcrumb a { color: var(--neon); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.pageHero {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.pageHero h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--text-bright);
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+.pageHero h1 em {
+  font-style: normal;
+  color: var(--neon);
+  text-shadow: var(--neon-glow);
+}
+.pageHero p {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  list-style: none;
+}
+
+.postRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+  position: relative;
+}
+.postRow::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--neon);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.postRow:hover::before { opacity: 1; }
+.postRow:hover .postLeft h2 { color: var(--neon); }
+
+.postMeta {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.tag {
+  border: 1px solid var(--neon-dim);
+  color: var(--neon);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
+.postLeft h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  transition: color 0.15s;
+}
+.excerpt {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.postRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  min-width: 100px;
+  padding-top: 0.1rem;
+}
+.date {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.readTime {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.arrow {
+  color: var(--neon);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: transform 0.15s;
+}
+.postRow:hover .arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 600px) {
+  .postRow { grid-template-columns: 1fr; gap: 0.75rem; }
+  .postRight { flex-direction: row; align-items: center; justify-content: flex-start; }
+  .arrow { margin-top: 0; margin-left: auto; }
+}

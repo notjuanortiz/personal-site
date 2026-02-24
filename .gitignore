@@ -1,0 +1,42 @@
+# ─── Dependencies (Supply Chain) ─────────────────────────────────────────────
+# Never commit installed packages. Keep package-lock.json for reproducible builds.
+node_modules/
+
+# ─── Build Output (Next.js) ───────────────────────────────────────────────────
+.next/
+out/
+.turbo/
+
+# ─── Environment & Secrets (Security) ─────────────────────────────────────────
+# Never commit tokens, API keys, or credentials.
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# ─── Deployment / Hosting ─────────────────────────────────────────────────────
+.vercel/
+
+# ─── IDE & Editor ─────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+.cursor/
+
+# ─── OS & Misc ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.log
+
+# ─── Testing & Coverage ──────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── Debug & TypeScript ───────────────────────────────────────────────────────
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

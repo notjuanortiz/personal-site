@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Share+Tech+Mono&display=swap');
+
+/* ── THEME TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:          #0a0a0a;
+  --bg2:         #111111;
+  --bg3:         #1a1a1a;
+  --border:      #2a2a2a;
+  --neon:        #39ff14;
+  --neon-dim:    #1a7a08;
+  --neon-glow:   0 0 8px #39ff14, 0 0 20px #39ff1455;
+  --amber:       #ffb700;
+  --cyan:        #00ffe7;
+  --cyan-glow:   0 0 8px #00ffe7, 0 0 20px #00ffe755;
+  --red:         #ff4444;
+  --text:        #c8c8c8;
+  --text-dim:    #666;
+  --text-bright: #f0f0f0;
+
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  --header-h: 54px;
+}
+
+[data-theme='light'] {
+  --bg:          #f4f0e8;
+  --bg2:         #ebe6dc;
+  --bg3:         #ddd8ce;
+  --border:      #b8b0a0;
+  --neon:        #007a00;
+  --neon-dim:    #005500;
+  --neon-glow:   0 0 4px #007a0066;
+  --amber:       #8a6200;
+  --cyan:        #006655;
+  --cyan-glow:   0 0 4px #00665566;
+  --red:         #cc0000;
+  --text:        #2a2a2a;
+  --text-dim:    #777;
+  --text-bright: #000;
+}
+
+/* ── RESET ────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+[data-theme='light'] html {
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  /* CRT scanlines overlay */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+}
+
+/* ── SCROLLBAR ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--neon-dim); border-radius: 3px; }
+
+/* ── FOCUS ────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+/* ── UTILITY ──────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

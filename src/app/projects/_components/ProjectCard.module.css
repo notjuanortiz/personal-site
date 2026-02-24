@@ -1,0 +1,205 @@
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--neon);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.card:hover {
+  border-color: var(--neon-dim);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.06);
+}
+.card:hover::before { opacity: 1; }
+
+/* Archived cards are slightly dimmed */
+.status-archived { opacity: 0.75; }
+
+/* ── Icon column ─────────────────────────────────────── */
+.iconCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem 0.5rem 1.6rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+
+.iconBox {
+  width: 44px;
+  height: 44px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover .iconBox {
+  border-color: var(--neon-dim);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+}
+
+/* ── Body ────────────────────────────────────────────── */
+.body {
+  padding: 1.5rem 1.75rem;
+  min-width: 0; /* prevent grid blowout */
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: -0.01em;
+}
+
+.statusBadge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.badge-active   { border: 1px solid var(--neon-dim);            color: var(--neon);    }
+.badge-wip      { border: 1px solid rgba(255, 183, 0, 0.4);     color: var(--amber);   }
+.badge-archived { border: 1px solid var(--border);              color: var(--text-dim);}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+  max-width: 640px;
+  margin-bottom: 1rem;
+}
+
+/* ── Stats ───────────────────────────────────────────── */
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+}
+.statItem svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.statVal { font-weight: 600; }
+
+.commits         { color: var(--neon-dim); }
+.commits .statVal { color: var(--neon); }
+.prs             { color: color-mix(in srgb, var(--amber) 60%, transparent); }
+.prs .statVal    { color: var(--amber); }
+.stars           { color: var(--text-dim); }
+.stars .statVal  { color: var(--cyan); }
+.stars svg       { fill: var(--cyan); }
+
+/* ── Actions ─────────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem 1.5rem 1.5rem 1rem;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-width: 148px;
+  border-left: 1px solid var(--border);
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.actionBtn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.btnGithub {
+  background: var(--bg3);
+  color: var(--text);
+  border-color: var(--border);
+  fill: currentColor;
+}
+.btnGithub:hover {
+  background: var(--text-bright);
+  border-color: var(--text-bright);
+  box-shadow: 0 0 10px rgba(240, 240, 240, 0.15);
+}
+
+.btnLive {
+  background: var(--neon);
+  color: #000;
+  border-color: var(--neon);
+  font-weight: 800;
+}
+.btnLive svg { stroke: #000; }
+.btnLive:hover {
+  box-shadow: var(--neon-glow);
+  filter: brightness(1.1);
+}
+
+.btnBlog {
+  background: transparent;
+  color: var(--cyan);
+  border-color: var(--cyan);
+  fill: none;
+}
+.btnBlog svg { stroke: var(--cyan); }
+.btnBlog:hover {
+  background: rgba(0, 255, 231, 0.08);
+  box-shadow: var(--cyan-glow);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 720px) {
+  .card { grid-template-columns: 56px 1fr; }
+  .actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+    min-width: unset;
+  }
+  .actionBtn { flex: 1; }
+}

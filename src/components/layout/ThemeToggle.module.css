@@ -1,0 +1,18 @@
+.btn {
+  margin-left: 0.5rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.05em;
+}
+
+.btn:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--amber) 33%, transparent);
+}

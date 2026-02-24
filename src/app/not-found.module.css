@@ -1,0 +1,48 @@
+.container {
+  min-height: calc(100vh - var(--header-h) - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.prompt {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+.prompt span { color: var(--neon); }
+
+.container h1 {
+  font-size: clamp(5rem, 15vw, 10rem);
+  font-weight: 800;
+  color: var(--text-bright);
+  line-height: 1;
+  text-shadow: var(--neon-glow);
+}
+
+.msg {
+  font-size: 0.82rem;
+  color: var(--red);
+  font-family: var(--font-mono);
+  max-width: 480px;
+}
+
+.link {
+  margin-top: 1rem;
+  color: var(--neon);
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid var(--neon-dim);
+  padding: 0.5rem 1.25rem;
+  letter-spacing: 0.06em;
+  transition: all 0.15s;
+  font-family: var(--font-mono);
+}
+.link:hover {
+  background: rgba(57, 255, 20, 0.08);
+  box-shadow: var(--neon-glow);
+}

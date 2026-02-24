@@ -1,0 +1,50 @@
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-right: 0.25rem;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.04em;
+}
+.btn:hover {
+  border-color: var(--neon-dim);
+  color: var(--neon);
+  background: rgba(57, 255, 20, 0.05);
+}
+.btnActive {
+  border-color: var(--neon-dim);
+  color: var(--neon);
+  background: rgba(57, 255, 20, 0.05);
+}
+
+.count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+.count strong {
+  color: var(--neon);
+}
