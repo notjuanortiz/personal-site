@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
 
 const nextConfig: NextConfig = {
   // React Compiler is stable in Next.js 16
@@ -9,3 +10,5 @@ const nextConfig: NextConfig = {
 }
 
 export default nextConfig
+
+initOpenNextCloudflareForDev()
