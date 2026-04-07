@@ -11,7 +11,7 @@ export const NAV_ITEMS: NavItem[] = [
 // ─── Social ───────────────────────────────────────────────────────────────
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: 'twitter',   href: 'https://twitter.com/yourhandle',      icon: 'twitter' },
+  { label: 'twitter',   href: 'https://twitter.com/notjuanortiz',      icon: 'twitter' },
   { label: 'github',    href: 'https://github.com/notjuanortiz',     icon: 'github' },
   { label: 'linkedin',  href: 'https://linkedin.com/in/juanortiz325', icon: 'linkedin' },
   { label: 'instagram', href: 'https://instagram.com/badwitkid',    icon: 'instagram' },
@@ -74,55 +74,63 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export const PROJECTS: Project[] = [
   {
-    slug: 'termdb',
-    name: 'termdb',
-    icon: '⚙️',
+    slug: 'farmcare',
+    name: 'farmcare',
+    icon: '🌾',
     description:
-      'A lightweight embedded key-value store written in Rust with an LSM-tree backend. Supports atomic transactions, compaction, and a Redis-compatible wire protocol.',
+      'A farm operations platform that centralizes planning, tracking, and discovery workflows so teams can improve yield decisions and reduce day-to-day coordination overhead.',
     status: 'active',
-    stats: { commits: 847, pullRequests: 63, stars: 1200 },
+    stats: { commits: 0, pullRequests: 0, stars: 0 },
     links: {
-      github: 'https://github.com/yourusername/termdb',
-      live: 'https://termdb.dev',
+      github: 'https://github.com/notjuanortiz/farmcare',
     },
   },
   {
-    slug: 'heliograph',
-    name: 'heliograph',
-    icon: '🔭',
+    slug: 'sensorhub',
+    name: 'sensorhub',
+    icon: '🛰️',
     description:
-      'Real-time distributed tracing visualizer. Ingests OpenTelemetry spans and renders flame graphs with sub-millisecond precision in the browser. Zero-config drop-in for existing OTEL pipelines.',
+      'A hardware-agnostic sensor orchestration platform that standardizes device telemetry and health monitoring, helping operations teams detect issues earlier and reduce unplanned downtime.',
     status: 'active',
-    stats: { commits: 412, pullRequests: 38, stars: 389 },
+    stats: { commits: 0, pullRequests: 0, stars: 0 },
     links: {
-      github: 'https://github.com/yourusername/heliograph',
-      live: 'https://heliograph.io',
+      github: 'https://github.com/notjuanortiz/sensorhub',
     },
   },
   {
-    slug: 'codestream',
-    name: 'codestream',
-    icon: '📟',
+    slug: 'travelab',
+    name: 'travelab',
+    icon: '✈️',
     description:
-      'VS Code extension that live-streams your editor state to a read-only shareable URL. Built for pair programming, live demos, and screen-share-free teaching.',
+      'A flight management API focused on clean domain modeling and reliable scheduling workflows, designed to support operational visibility and safer decision-making for travel systems.',
     status: 'wip',
-    stats: { commits: 134, pullRequests: 11, stars: 74 },
+    stats: { commits: 0, pullRequests: 0, stars: 0 },
     links: {
-      github: 'https://github.com/yourusername/codestream',
-      blogPost: 'over-engineered-blog',
+      github: 'https://github.com/notjuanortiz/travelab',
     },
   },
   {
-    slug: 'meshpeer',
-    name: 'meshpeer',
-    icon: '🌐',
+    slug: 'travelab-site',
+    name: 'travelab-site',
+    icon: '🧭',
     description:
-      'Zero-config mesh networking daemon for homelab clusters. Automatically discovers nodes, negotiates WireGuard tunnels, and manages routing tables. Superseded by Tailscale for most use cases.',
+      'A web dashboard for flight operations that surfaces scheduling and planning data in one place, improving cross-team communication and reducing manual status handoffs.',
     status: 'archived',
-    stats: { commits: 291, pullRequests: 29, stars: 218 },
+    stats: { commits: 0, pullRequests: 0, stars: 0 },
     links: {
-      github: 'https://github.com/yourusername/meshpeer',
-      blogPost: 'over-engineered-blog',
+      github: 'https://github.com/notjuanortiz/travelab-site',
+    },
+  },
+  {
+    slug: 'texas-holdem',
+    name: 'texas-holdem',
+    icon: '♠️',
+    description:
+      "A command-line Texas Hold'em simulator that models game-state transitions and probability-driven outcomes, showcasing practical algorithm design and testable business logic.",
+    status: 'active',
+    stats: { commits: 0, pullRequests: 0, stars: 1 },
+    links: {
+      github: 'https://github.com/notjuanortiz/texas-holdem',
     },
   },
 ]
