@@ -23,10 +23,14 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*" : ["./src/*"],
+      "@app/*" : ["./src/app/*"],
+      "@lib/*" : ["./src/lib/*"],
+      "@components/*" :["./src/components/*"],
+      "@types/*" : ["./src/types/*"],
+      "@styles/*" : ["./src/styles/*"]
     }
+  
   },
   "include": [
     "next-env.d.ts",

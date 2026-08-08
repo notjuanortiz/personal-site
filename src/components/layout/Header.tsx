@@ -8,7 +8,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.logo}>
-        ~/<span>yourname</span>
+        ~/<span>notjuanortiz</span>
       </Link>
 
       <nav className={styles.nav} aria-label="Main navigation">

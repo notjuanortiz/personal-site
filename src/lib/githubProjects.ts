@@ -5,11 +5,13 @@ import { PROJECTS } from '@/lib/data'
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql'
 const FOURTEEN_DAYS_SECONDS = 60 * 60 * 24 * 14
+const REPO_ALIAS_PREFIX = 'repoBySlug_'
 
 type GithubRepoCoordinates = {
   owner: string
   name: string
   projectSlug: string
+  alias: string
 }
 
 type GithubRepositoryNode = {
@@ -29,6 +31,15 @@ type GithubRepositoryNode = {
 type GithubGraphqlResponse = {
   data?: Record<string, GithubRepositoryNode | null>
   errors?: Array<{ message: string }>
+}
+
+function sanitizeAliasSegment(value: string): string {
+  const sanitized = value.replace(/[^a-zA-Z0-9_]/g, '_')
+  return sanitized.length > 0 ? sanitized : 'unknown'
+}
+
+function createRepoAlias(projectSlug: string): string {
+  return `${REPO_ALIAS_PREFIX}${sanitizeAliasSegment(projectSlug)}`
 }
 
 function extractRepoFromUrl(url: string | undefined | null): { owner: string; name: string } | null {
@@ -61,6 +72,113 @@ function extractRepoFromUrl(url: string | undefined | null): { owner: string; na
   }
 }
 
+function extractProjectRepoCoordinates(project: Project): GithubRepoCoordinates | null {
+  const repo = extractRepoFromUrl(project.links.github)
+  if (!repo) {
+    console.error(
+      `[githubProjects] Could not extract owner/repo from GitHub URL "${project.links.github}" for project "${project.slug}".`,
+    )
+    return null
+  }
+
+  return {
+    owner: repo.owner,
+    name: repo.name,
+    projectSlug: project.slug,
+    alias: createRepoAlias(project.slug),
+  }
+}
+
+function buildProjectsStatsQuery(repoCoordinates: GithubRepoCoordinates[]): string {
+  const selectionSet = repoCoordinates
+    .map(
+      (repo) => `
+  ${repo.alias}: repository(owner: "${repo.owner}", name: "${repo.name}") {
+    stargazerCount
+    pullRequests {
+      totalCount
+    }
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          # GitHub requires first/last between 1 and 100.
+          # We only need totalCount; requesting first: 1 keeps payload small.
+          history(first: 1) {
+            totalCount
+          }
+        }
+      }
+    }
+  }`,
+    )
+    .join('\n')
+
+  return `query ProjectsStats {
+${selectionSet}
+}`
+}
+
+function mergeProjectWithRepoStats(project: Project, repoNode: GithubRepositoryNode | null | undefined): Project {
+  if (!repoNode) {
+    return project
+  }
+
+  const stars =
+    typeof repoNode.stargazerCount === 'number'
+      ? repoNode.stargazerCount
+      : project.stats?.stars
+
+  const pullRequests =
+    typeof repoNode.pullRequests?.totalCount === 'number'
+      ? repoNode.pullRequests.totalCount
+      : project.stats?.pullRequests
+
+  const commitsFromHistory = repoNode.defaultBranchRef?.target?.history?.totalCount
+
+  const commits =
+    typeof commitsFromHistory === 'number'
+      ? commitsFromHistory
+      : project.stats?.commits
+
+  return {
+    ...project,
+    stats: {
+      ...project.stats,
+      stars: stars ?? project.stats?.stars ?? 0,
+      pullRequests: pullRequests ?? project.stats?.pullRequests ?? 0,
+      commits: commits ?? project.stats?.commits ?? 0,
+    },
+  }
+}
+
+async function fetchGithubGraphqlPayload(
+  token: string,
+  query: string,
+): Promise<GithubGraphqlResponse | null> {
+  const response = await fetch(GITHUB_GRAPHQL_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ query }),
+    // Cache on the server and revalidate every 14 days
+    cache: 'force-cache',
+    next: { revalidate: FOURTEEN_DAYS_SECONDS },
+  })
+
+  if (!response.ok) {
+    console.error(
+      `[githubProjects] GitHub GraphQL request failed with status ${response.status}. ` +
+        'Falling back to static PROJECTS stats. ' +
+        'Verify that your GITHUB_TOKEN has access and that you are not rate limited.',
+    )
+    return null
+  }
+
+  return (await response.json()) as GithubGraphqlResponse
+}
+
 export async function getProjectsWithGithubStats(
   projects: Project[] = PROJECTS,
 ): Promise<Project[]> {
@@ -76,79 +194,24 @@ export async function getProjectsWithGithubStats(
   }
 
   const repoCoordinates: GithubRepoCoordinates[] = projects
-    .map((project) => {
-      const githubUrl = (project as any).links?.github as string | undefined
-      if (!githubUrl) return null
-
-      const repo = extractRepoFromUrl(githubUrl)
-      if (!repo) {
-        console.error(
-          `[githubProjects] Could not extract owner/repo from GitHub URL "${githubUrl}" for project "${project.slug}".`,
-        )
-        return null
-      }
-
-      return {
-        owner: repo.owner,
-        name: repo.name,
-        projectSlug: project.slug,
-      }
-    })
+    .map(extractProjectRepoCoordinates)
     .filter((value): value is GithubRepoCoordinates => value !== null)
 
   if (repoCoordinates.length === 0) {
     return projects
   }
 
-  // Build a single GraphQL query with one repository field per project
-  const selectionSet = repoCoordinates
-    .map(
-      (repo, index) => `
-  repo${index}: repository(owner: "${repo.owner}", name: "${repo.name}") {
-    stargazerCount
-    pullRequests(states: MERGED) {
-      totalCount
-    }
-    defaultBranchRef {
-      target {
-        ... on Commit {
-          history(first: 0) {
-            totalCount
-          }
-        }
-      }
-    }
-  }`,
-    )
-    .join('\n')
+  const repoAliasBySlug = new Map<string, string>(
+    repoCoordinates.map((coord) => [coord.projectSlug, coord.alias]),
+  )
 
-  const query = `query ProjectsStats {
-${selectionSet}
-}`
+  const query = buildProjectsStatsQuery(repoCoordinates)
 
   try {
-    const response = await fetch(GITHUB_GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ query }),
-      // Cache on the server and revalidate every 14 days
-      cache: 'force-cache',
-      next: { revalidate: FOURTEEN_DAYS_SECONDS },
-    })
-
-    if (!response.ok) {
-      console.error(
-        `[githubProjects] GitHub GraphQL request failed with status ${response.status}. ` +
-          'Falling back to static PROJECTS stats. ' +
-          'Verify that your GITHUB_TOKEN has access and that you are not rate limited.',
-      )
+    const payload = await fetchGithubGraphqlPayload(token, query)
+    if (!payload) {
       return projects
     }
-
-    const payload = (await response.json()) as GithubGraphqlResponse
 
     if (payload.errors && payload.errors.length > 0) {
       console.error(
@@ -158,57 +221,15 @@ ${selectionSet}
       // We still try to use any partial data in payload.data below.
     }
 
-    const updatedBySlug = new Map<string, Project>()
-
-    projects.forEach((project) => {
-      const coordIndex = repoCoordinates.findIndex(
-        (coord) => coord.projectSlug === project.slug,
-      )
-
-      if (coordIndex === -1) {
-        updatedBySlug.set(project.slug, project)
-        return
+    return projects.map((project) => {
+      const alias = repoAliasBySlug.get(project.slug)
+      if (!alias) {
+        return project
       }
 
-      const repoKey = `repo${coordIndex}`
-      const repoNode = payload.data?.[repoKey]
-
-      if (!repoNode) {
-        // No data for this repo; fall back to static stats
-        updatedBySlug.set(project.slug, project)
-        return
-      }
-
-      const stars =
-        typeof repoNode.stargazerCount === 'number'
-          ? repoNode.stargazerCount
-          : project.stats?.stars
-
-      const pullRequests =
-        typeof repoNode.pullRequests?.totalCount === 'number'
-          ? repoNode.pullRequests.totalCount
-          : project.stats?.pullRequests
-
-      const commitsFromHistory =
-        repoNode.defaultBranchRef?.target?.history?.totalCount
-
-      const commits =
-        typeof commitsFromHistory === 'number'
-          ? commitsFromHistory
-          : project.stats?.commits
-
-      updatedBySlug.set(project.slug, {
-        ...project,
-        stats: {
-          ...project.stats,
-          stars: stars ?? project.stats?.stars ?? 0,
-          pullRequests: pullRequests ?? project.stats?.pullRequests ?? 0,
-          commits: commits ?? project.stats?.commits ?? 0,
-        },
-      })
+      const repoNode = payload.data?.[alias]
+      return mergeProjectWithRepoStats(project, repoNode)
     })
-
-    return projects.map((project) => updatedBySlug.get(project.slug) ?? project)
   } catch (error) {
     console.error(
       '[githubProjects] Unexpected error while fetching GitHub stats. ' +

@@ -1,15 +1,21 @@
 {
-  "name": "portfolio",
+  "name": "personal-site",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
+    "dev": "next dev --turbopack",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.17.1",
     "next": "^16.1.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
@@ -20,6 +26,7 @@
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.1.6",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "wrangler": "^4.68.1"
   }
 }

@@ -18,7 +18,7 @@ export default function HomePage() {
         <div className={styles.heroGrid}>
           <div className={styles.heroLeft}>
             <p className={styles.promptLine}>
-              <span>root@yourname</span>:~$ whoami
+              <span>root@notjuanortiz</span>:~$ whoami
             </p>
             <h1>
               Hello,<br />I&apos;m <em>Your Name</em>.
@@ -33,7 +33,7 @@ export default function HomePage() {
                 ./view_projects
               </Link>
               <Link href="/#about" className={`${styles.btn} ${styles.btnGhost}`}>
-                man yourname
+                man notjuanortiz
               </Link>
             </div>
           </div>
@@ -43,16 +43,16 @@ export default function HomePage() {
               <span className={`${styles.dot} ${styles.dotR}`} />
               <span className={`${styles.dot} ${styles.dotY}`} />
               <span className={`${styles.dot} ${styles.dotG}`} />
-              <span className={styles.termTitle}>yourname@local — bash — 80×24</span>
+              <span className={styles.termTitle}>notjuanortiz@local — bash — 80×24</span>
             </div>
             <div className={styles.termBody}>
               <p><span className={styles.tP}>→</span> <span className={styles.tV}>cat</span> about.json</p>
               <p><span className={styles.tC}>{'{'}</span></p>
-              <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;name&quot;</span><span className={styles.tC}>:</span> <span className={styles.tV}>&quot;Your Name&quot;</span><span className={styles.tC}>,</span></p>
+              <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;name&quot;</span><span className={styles.tC}>:</span> <span className={styles.tV}>&quot;Juan P. Ortiz&quot;</span><span className={styles.tC}>,</span></p>
               <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;role&quot;</span><span className={styles.tC}>:</span> <span className={styles.tV}>&quot;Software Engineer&quot;</span><span className={styles.tC}>,</span></p>
-              <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;location&quot;</span><span className={styles.tC}>:</span> <span className={styles.tV}>&quot;Earth, Sol III&quot;</span><span className={styles.tC}>,</span></p>
+              <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;location&quot;</span><span className={styles.tC}>:</span> <span className={styles.tV}>&quot;New York, NY&quot;</span><span className={styles.tC}>,</span></p>
               <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;stack&quot;</span><span className={styles.tC}>:</span> <span className={styles.tC}>[</span></p>
-              <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.tV}>&quot;TypeScript&quot;</span><span className={styles.tC}>,</span> <span className={styles.tV}>&quot;Rust&quot;</span><span className={styles.tC}>,</span> <span className={styles.tV}>&quot;Go&quot;</span></p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.tV}>&quot;TypeScript&quot;</span><span className={styles.tC}>,</span> <span className={styles.tV}>&quot;Java&quot;</span><span className={styles.tC}>,</span> <span className={styles.tV}>&quot;Go&quot;</span></p>
               <p>&nbsp;&nbsp;<span className={styles.tC}>],</span></p>
               <p>&nbsp;&nbsp;<span className={styles.tS}>&quot;status&quot;</span><span className={styles.tC}>:</span> <span className={styles.tE}>&quot;open_to_work: true&quot;</span></p>
               <p><span className={styles.tC}>{'}'}</span></p>

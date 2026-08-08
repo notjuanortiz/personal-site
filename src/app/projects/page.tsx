@@ -17,7 +17,7 @@ export default async function ProjectsPage() {
       {/* Page hero */}
       <div className={styles.pageHero}>
         <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <Link href="/">~/yourname</Link>
+          <Link href="/">~/notjuanortiz</Link>
           <span>/</span>
           <span>projects</span>
         </nav>
